@@ -22,6 +22,7 @@ namespace PokemonServer
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("http://*.5000");  // listen on all IPs at port 5000
                 });
     }
 }
