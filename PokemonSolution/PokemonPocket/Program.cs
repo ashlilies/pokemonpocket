@@ -341,7 +341,7 @@ namespace PokemonPocket {
             MPBattleService svc = new MPBattleService(host);
 
             List<MPBattleTick> battleTicks;
-            // try {
+            try {
                 bool res = await svc.JoinBattle(sendForBattle);
                 Console.WriteLine("Successfully connected!");
                 if (res == false) {
@@ -352,11 +352,11 @@ namespace PokemonPocket {
                 Console.WriteLine("Waiting for opponent to join...");
                 battleTicks = await svc.GetBattleResults();
             // // } catch (Exception e) {  // debug
-            // } catch (Exception) {
-                // Console.WriteLine("Failed to connect to server! Cancelling match...");
+            } catch (Exception) {
+                Console.WriteLine("Failed to connect to server! Cancelling match...");
                 // Console.WriteLine($"Detailed error: {e.Message}");  // debug
-                // return;
-            // }
+                return;
+            }
 
             foreach (MPBattleTick tick in battleTicks) {
                 Console.WriteLine(tick);
