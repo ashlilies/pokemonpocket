@@ -6,4 +6,5 @@ Server runs on port 5000 and listens on all IPs by default.
 
 To run server or client:
 
+    cd PokemonSolution/<PokemonPocket/PokemonServer>
     dotnet run
