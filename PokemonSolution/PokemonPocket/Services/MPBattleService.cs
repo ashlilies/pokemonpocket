@@ -26,7 +26,7 @@ namespace PokemonPocket {
     public class MPBattleService {
         private HttpClient client;
         private string uuid;
-
+        private string myPokemonUuid;
         public MPBattleResults MetaResults { get; private set; }
 
         // todo: try catch on call for this
@@ -42,6 +42,7 @@ namespace PokemonPocket {
         /// Returns success of joining battle (is another battle ongoing?)
         /// </summary>
         public async Task<bool> JoinBattle(Pokemon pokemon) {
+            myPokemonUuid = pokemon.Uuid;
             StringContent content = new StringContent(JsonConvert.SerializeObject(pokemon),
                                                       Encoding.UTF8,
                                                       "application/json");
@@ -74,7 +75,7 @@ namespace PokemonPocket {
             }
 
             // Check if won or lost this battle
-            bool win;
+            bool win = false;
             int winnerExpGain = 0;
             string winnerUuid = battleResults.Last().AttackerUuid;
             using (PokemonDbContext dbctx = new PokemonDbContext()) {
@@ -82,16 +83,16 @@ namespace PokemonPocket {
                              where pokemon.Uuid == winnerUuid
                              select pokemon
                             ).FirstOrDefault();
-                if (p == null) {
-                    win = false;
-                } else {
-                    win = true;
+                if (p != null) {
+                    if (winnerUuid == myPokemonUuid) {  // avoid issues with copying program over
+                        win = true;
 
-                    // If won, apply random XP
-                    Random rand = new Random();
-                    winnerExpGain = rand.Next(1, 100 + 1);
-                    p.Exp += winnerExpGain;
-                    dbctx.SaveChanges();
+                        // If won, apply random XP
+                        Random rand = new Random();
+                        winnerExpGain = rand.Next(1, 100 + 1);
+                        p.Exp += winnerExpGain;
+                        dbctx.SaveChanges();
+                    }
                 }
             }
 

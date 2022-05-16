@@ -93,6 +93,7 @@ namespace PokemonPocket {
             Console.WriteLine("(X). Empty Pocket (!!)");
         }
 
+        // Maximum of 1000 hp
         private static void AddPokemon() {
             string name;
             int hp;
@@ -113,8 +114,12 @@ namespace PokemonPocket {
                 Console.Write("Enter Pokemon's HP: ");
                 while (!Int32.TryParse(Console.ReadLine(), out hp))
                     Console.Write("HP must be an integer! Try again: ");
-                if (hp >= 0)
+                if (hp >= 0 && hp <= 1000)
                     break;
+                if (hp >= 1000) {
+                    Console.WriteLine("Maximum HP is 1000!");
+                    continue;
+                }
                 Console.WriteLine("HP must be 0 or positive!");
             }
 
@@ -371,7 +376,7 @@ namespace PokemonPocket {
                 Thread.Sleep(1000);
             }
 
-            string winner = battleTicks.Last().OpponentName;
+            string winner = battleTicks.Last().AttackerName;
             // int winnerId = battleTicks.Last().OpponentId;
             Console.WriteLine("The winner is {0}! Congratulations!", winner);
             if (svc.MetaResults.win) {
