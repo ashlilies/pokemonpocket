@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 
 namespace PokemonServer {
+    // This service removes players who are inactive longer than 
+    // INACTIVE_TIMEOUT_SECONDS; if the user performs a CTRL-C, for example.
     public class MultiplayService {
         #region Singleton
         private static MultiplayService _instance = null;
@@ -15,12 +17,16 @@ namespace PokemonServer {
 
         public Player player1 = null;
         public Player player2 = null;
+        // Remove players who are inactive longer than this time
+        public readonly double INACTIVE_TIMEOUT_SECONDS = 10;
         private List<BattleTick> battleResults = null;  // use GetResults()
 
         // <summary>
         // Returns a uuid, or null if not successful (battle already ongoing).
         // </sumamry>
         public string JoinPlayer(Pokemon pokemon) {
+            KickInactive();
+
             if (player1 != null && player2 != null)
                 return null;
             
@@ -47,6 +53,8 @@ namespace PokemonServer {
         // Returns null if the player isn't found in lobby / already removed.
         // </summary>
         public List<BattleTick> GetResults(string uuid) {
+            UpdateLastSeen(uuid);
+
             if (battleResults == null)
                 return null;
 
@@ -77,6 +85,43 @@ namespace PokemonServer {
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// If uuid is a valid one, update the last seen to the current time.
+        /// </summary>
+        private void UpdateLastSeen(string uuid) {
+            if (player1 != null) {
+                if (player1.Uuid == uuid) {
+                    player1.LastSeen = DateTime.Now;
+                    return;
+                }
+            }
+
+            if (player2 != null) {
+                if (player2.Uuid == uuid) {
+                    player2.LastSeen = DateTime.Now;
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// When this method is called, inactive players
+        /// (more than INACTIVE_TIMEOUT_SECONDS) are kicked out of the lobby.
+        /// </summary>
+        private void KickInactive() {
+            if (player1 != null) {
+                DateTime expiry = player1.LastSeen.AddSeconds(INACTIVE_TIMEOUT_SECONDS);
+                if (expiry < DateTime.Now)
+                    player1 = null;
+            }
+
+            if (player2 != null) {
+                DateTime expiry = player2.LastSeen.AddSeconds(INACTIVE_TIMEOUT_SECONDS);
+                if (expiry < DateTime.Now)
+                    player2 = null;
+            }
         }
 
         private void StartBattle() {
