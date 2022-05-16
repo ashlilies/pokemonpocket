@@ -290,6 +290,8 @@ namespace PokemonPocket {
         // TODO: Exp support, db support
         private static async Task MPBattle() {
             Pokemon sendForBattle;
+            MPBattleService svc;
+            List<MPBattleTick> battleTicks;
 
             Console.Write("Enter battle server host/IP and port [localhost:5000]: ");
             string host = Console.ReadLine();
@@ -298,6 +300,14 @@ namespace PokemonPocket {
                 Console.WriteLine("Using default of localhost:5000...");
                 host = "localhost:5000";
             }
+
+            try {
+                svc = new MPBattleService(host);
+            } catch (Exception) {
+                Console.WriteLine("Invalid host/port specified!");
+                return;
+            }
+
 
             Console.WriteLine("Alive pokemon: ");
             List<Pokemon> pokemonList = ListAlivePokemonWithIds();
@@ -336,11 +346,9 @@ namespace PokemonPocket {
 
             Console.WriteLine("Sending {0} ({1} hp) for battle...", sendForBattle, sendForBattle.Hp);
 
-            // Create the battle service and connect to server
+            // Connect to server using created service...
             Console.WriteLine("Connecting to server...");
-            MPBattleService svc = new MPBattleService(host);
 
-            List<MPBattleTick> battleTicks;
             try {
                 bool res = await svc.JoinBattle(sendForBattle);
                 Console.WriteLine("Successfully connected!");
