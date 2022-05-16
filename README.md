@@ -1,5 +1,8 @@
 # PokemonPocket Assignment
 Battle two Pokemons, with support for multiplayer.
 
-Use PokemonPocket for the  client, PokemonServer for the server.
-Server runs on port 5000 by default.
+Use PokemonPocket for the  client, PokemonServer for the multiplayer battle server.
+Server runs on port 5000 and listens on all IPs by default.
+
+To run server or client:
+    dotnet run
