@@ -106,10 +106,12 @@ namespace PokemonPocket {
                                  select pokemon
                         ).FirstOrDefault();
 
-                    // If exists, apply damage dealt
+                    // If exists, and damage is to our pokemon (in case of copied DB), apply damage dealt
                     if (p != null) {
-                        p.Hp = tick.OpponentHealthAfterTick;
-                        dbctx.SaveChanges();
+                        if (p.Uuid == myPokemonUuid) {
+                            p.Hp = tick.OpponentHealthAfterTick;
+                            dbctx.SaveChanges();
+                        }
                     }
                 }
             }
