@@ -104,7 +104,7 @@ namespace PokemonPocket {
                     Pokemon p = (from pokemon in dbctx.Pokemons
                                  where pokemon.Uuid == tick.OpponentUuid
                                  select pokemon
-                        ).FirstOrDefault();
+                                ).FirstOrDefault();
 
                     // If exists, and damage is to our pokemon (in case of copied DB), apply damage dealt
                     if (p != null) {
