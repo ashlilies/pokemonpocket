@@ -337,6 +337,12 @@ namespace PokemonPocket {
                                      where p.PokemonId == pokemonId
                                      select p)
                                      .FirstOrDefault();
+
+                    // hacky solution for edge case: db is copied over and same pokemon battling against each other
+                    if (sendForBattle != null) {
+                        sendForBattle.Uuid = Guid.NewGuid().ToString();
+                        dbctx.SaveChanges();
+                    }
                 }
                 if (sendForBattle != null) {
                     if (sendForBattle.Hp > 0) {
