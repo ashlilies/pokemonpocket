@@ -18,7 +18,7 @@ namespace PokemonServer {
         public Player player1 = null;
         public Player player2 = null;
         // Remove players who are inactive longer than this time
-        public readonly double INACTIVE_TIMEOUT_SECONDS = 10;
+        public readonly double INACTIVE_TIMEOUT_SECONDS = 7;
         private List<BattleTick> battleResults = null;  // use GetResults()
 
         // <summary>

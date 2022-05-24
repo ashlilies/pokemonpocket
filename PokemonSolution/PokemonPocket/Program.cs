@@ -386,10 +386,14 @@ namespace PokemonPocket {
             // int winnerId = battleTicks.Last().OpponentId;
             Console.WriteLine("The winner is {0}! Congratulations!", winner);
             if (svc.MetaResults.win) {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine("You have won! Congratulations!");
                 Console.WriteLine("{0} has gained {1} exp from this battle.", sendForBattle.Name, svc.MetaResults.exp);
+                Console.ResetColor();
             } else {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("You lost this time. Better luck next time!");
+                Console.ResetColor();
             }
 
             // Console.WriteLine("{0} has gained {1} exp from this battle.", battle.Winner, battle.WinnerExpGain);
