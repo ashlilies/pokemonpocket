@@ -378,7 +378,12 @@ namespace PokemonPocket {
             }
 
             foreach (MPBattleTick tick in battleTicks) {
+                if (tick.AttackerUuid == sendForBattle.Uuid)
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                else
+                    Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(tick);
+                Console.ResetColor();
                 Thread.Sleep(1000);
             }
 
