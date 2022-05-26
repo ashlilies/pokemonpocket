@@ -11,3 +11,6 @@ To run server or client:
 
     cd PokemonSolution/<PokemonPocket/PokemonServer>
     dotnet run
+
+# Copyright
+Copyright (c) 2021, Ashlee Tan
