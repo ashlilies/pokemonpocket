@@ -13,4 +13,4 @@ To run server or client:
     dotnet run
 
 # Copyright
-Copyright (c) 2021, Ashlee Tan
+Copyright (c) 2022, Ashlee Tan
