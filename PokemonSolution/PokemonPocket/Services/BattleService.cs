@@ -2,15 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-/// <summary>
-/// Additional creative feature.
-/// Transient service providing battle functionality.
-/// Each pokemon can attack from 1 up to 100 dmg per tick.
-/// The winner gets anywhere from 1-100 XP.
-/// Each instance refers to one battle.
-/// TODO: Comprehensive debugging
-/// </summary>
 namespace PokemonPocket {
+    /// <summary>
+    /// Additional creative feature.
+    /// Transient service providing battle functionality.
+    /// Each pokemon can attack from 1 up to 100 dmg per tick.
+    /// The winner gets anywhere from 1-100 XP.
+    /// Each instance refers to one battle.
+    /// </summary>
     public class BattleService {
 
         public Pokemon Pokemon1 { get; }
